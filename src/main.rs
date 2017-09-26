@@ -5,7 +5,6 @@ mod util;
 
 use ggez::*;
 use ggez::event::*;
-use ggez::graphics::{DrawMode};
 use std::time::Duration;
 use player::Player;
 use util::rect;
@@ -36,28 +35,30 @@ impl event::EventHandler for MainState {
     }
 
     fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
-        let border_color = graphics::Color::new(0.2, 0.2, 0.2, 1.0);
-        let game_board_color = graphics::Color::new(0.0, 0.0, 0.0, 1.0);
-        let grid_color = graphics::Color::new(1.0, 1.0, 1.0, 1.0);
+        use graphics::*;
+
+        let border_color = Color::new(0.2, 0.2, 0.2, 1.0);
+        let game_board_color = Color::new(0.0, 0.0, 0.0, 1.0);
+        let grid_color = Color::new(1.0, 1.0, 1.0, 1.0);
 
         // Clear the screen and render the border
-        graphics::set_background_color(ctx, border_color);
-        graphics::clear(ctx);
+        set_background_color(ctx, border_color);
+        clear(ctx);
 
         // Render the game space background
-        graphics::set_color(ctx, game_board_color).unwrap();
-        graphics::rectangle(
+        set_color(ctx, game_board_color).unwrap();
+        rectangle(
             ctx,
             DrawMode::Fill,
             rect(GAME_MARGIN, GAME_MARGIN, GAME_WIDTH, GAME_HEIGHT))?;
 
         // Render the grid
-        graphics::set_color(ctx, grid_color).unwrap();
+        set_color(ctx, grid_color).unwrap();
         let mut x = 0.0;
         while x < GAME_WIDTH {
             let mut y = 0.0;
             while y < GAME_HEIGHT {
-                graphics::rectangle(
+                rectangle(
                     ctx,
                     DrawMode::Line,
                     rect(
@@ -74,7 +75,7 @@ impl event::EventHandler for MainState {
         // Render the player inside of the game space
         self.player.draw(ctx, GAME_MARGIN).unwrap();
 
-        graphics::present(ctx);
+        present(ctx);
         Ok(())
     }
 
