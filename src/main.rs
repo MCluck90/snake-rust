@@ -3,16 +3,15 @@ extern crate ggez;
 use ggez::*;
 use ggez::event::*;
 use ggez::graphics::{DrawMode, Rect};
-use ggez::timer;
 use std::time::Duration;
 
 const PLAYER_SIZE: f32 = 25.0;
 const MAX_SPEED: f32 = PLAYER_SIZE;
 const SCREEN_WIDTH: f32 = 800.0;
-const SCREEN_HEIGHT: f32 = 600.0;
+const SCREEN_HEIGHT: f32 = 590.0;
 const GAME_MARGIN: f32 = 16.0;
-const GAME_WIDTH: f32 = SCREEN_WIDTH * 0.8 - GAME_MARGIN;
-const GAME_HEIGHT: f32 = SCREEN_HEIGHT - (GAME_MARGIN * 2.0);
+const GAME_WIDTH: f32 = PLAYER_SIZE * 24.0;
+const GAME_HEIGHT: f32 = PLAYER_SIZE * 22.0;
 
 fn rect_from_xy(x: f32, y: f32, w: f32, h: f32) -> Rect {
     Rect {
@@ -90,6 +89,26 @@ impl event::EventHandler for MainState {
             ctx,
             DrawMode::Fill,
             rect_from_xy(GAME_MARGIN, GAME_MARGIN, GAME_WIDTH, GAME_HEIGHT))?;
+
+        // Render the grid
+        graphics::set_color(ctx, grid_color).unwrap();
+        let mut x = 0.0;
+        while x < GAME_WIDTH {
+            let mut y = 0.0;
+            while y < GAME_HEIGHT {
+                graphics::rectangle(
+                    ctx,
+                    DrawMode::Line,
+                    rect_from_xy(
+                        x + GAME_MARGIN,
+                        y + GAME_MARGIN,
+                        PLAYER_SIZE,
+                        PLAYER_SIZE
+                    ))?;
+                y += PLAYER_SIZE;
+            }
+            x += PLAYER_SIZE;
+        }
 
         // Render the player inside of the game space
         graphics::set_color(ctx, player_color).unwrap();
