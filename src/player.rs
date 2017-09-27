@@ -148,6 +148,10 @@ impl Player {
         }
     }
 
+    pub fn get_score(&self) -> u32 {
+        self.tail_pieces.len() as u32
+    }
+
     pub fn is_colliding(&self, food: &Food) -> bool {
         if self.x == food.x && self.y == food.y {
             return true;
