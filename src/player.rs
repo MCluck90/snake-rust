@@ -75,6 +75,8 @@ impl Player {
 
         if self.is_colliding_with_tail() {
             self.tail_pieces = Vec::new();
+            self.x_speed = 0.0;
+            self.y_speed = 0.0;
         }
 
         has_eaten
