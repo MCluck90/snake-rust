@@ -5,3 +5,4 @@ authors = ["Mike C <MCluck90@gmail.com>"]
 
 [dependencies]
 ggez = "0.3.3"
+rand = "0.3"

@@ -1,4 +1,5 @@
 extern crate ggez;
+extern crate rand;
 
 mod food;
 mod player;
@@ -36,7 +37,11 @@ impl MainState {
 
 impl event::EventHandler for MainState {
     fn update(&mut self, _ctx: &mut Context, dt: Duration) -> GameResult<()> {
-        self.player.update(dt, &self.food);
+        if self.player.update(dt, &self.food) {
+            while self.player.is_colliding(&self.food) {
+                self.food.rand_pos(24, 22, player::SIZE);
+            }
+        }
         Ok(())
     }
 

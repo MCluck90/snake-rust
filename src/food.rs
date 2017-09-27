@@ -1,4 +1,6 @@
 use ggez::*;
+use rand;
+use rand::distributions::{IndependentSample, Range};
 
 use player::*;
 use util::{rect};
@@ -23,5 +25,13 @@ impl Food {
                 SIZE))?;
         
         Ok(())
+    }
+
+    pub fn rand_pos(&mut self, max_x: u32, max_y: u32, size: f32) {
+        let x_between = Range::new(0u32, max_x);
+        let y_between = Range::new(0u32, max_y);
+        let mut rng = rand::thread_rng();
+        self.x = x_between.ind_sample(&mut rng) as f32 * size;
+        self.y = y_between.ind_sample(&mut rng) as f32 * size;
     }
 }

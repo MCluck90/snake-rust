@@ -37,16 +37,16 @@ impl Player {
         }
     }
 
-    pub fn update(&mut self, dt: Duration, food: &Food) {
+    pub fn update(&mut self, dt: Duration, food: &Food) -> bool {
         let ms = util::to_ms(dt);
         self.time_since_update += ms;
 
         if self.time_since_update <= 150 {
-            return;
+            return false;
         }
 
         self.time_since_update = 0;
-        self.eat(food);
+        let has_eaten = self.eat(food);
 
         if self.tail_pieces.len() > 0 {
             self.tail_pieces.pop().unwrap();
@@ -72,6 +72,8 @@ impl Player {
         } else if self.y < 0.0 {
             self.y = self.game_height - SIZE;
         }
+
+        has_eaten
     }
 
     pub fn draw(&mut self, ctx: &mut Context, margin: f32) -> GameResult<()> {
@@ -140,5 +142,19 @@ impl Player {
         } else {
             false
         }
+    }
+
+    pub fn is_colliding(&self, food: &Food) -> bool {
+        if self.x == food.x && self.y == food.y {
+            return true;
+        }
+
+        for piece in &self.tail_pieces {
+            if piece.x == food.x && piece.y == food.y {
+                return true;
+            }
+        }
+
+        false
     }
 }
