@@ -77,9 +77,9 @@ impl Player {
     pub fn draw(&mut self, ctx: &mut Context, margin: f32) -> GameResult<()> {
         use graphics::*;
 
+        let head_color = Color::new(0.0, 1.0, 0.05, 1.0);
         let player_color = Color::new(0.0, 1.0, 0.0, 1.0);
-        let player_border_color = Color::new(0.2, 1.0, 0.2, 1.0);
-        set_color(ctx, player_color).unwrap();
+        set_color(ctx, head_color).unwrap();
         rectangle(
             ctx,
             DrawMode::Fill,
@@ -89,6 +89,7 @@ impl Player {
                 SIZE,
                 SIZE))?;
 
+        set_color(ctx, player_color).unwrap();
         for piece in &self.tail_pieces {
             rectangle(
                 ctx,
@@ -100,26 +101,6 @@ impl Player {
                     SIZE))?;
         }
 
-        set_color(ctx, player_border_color).unwrap();
-        rectangle(
-            ctx,
-            DrawMode::Line,
-            util::rect(
-                self.x + margin,
-                self.y + margin,
-                SIZE,
-                SIZE))?;
-
-        for piece in &self.tail_pieces {
-            rectangle(
-                ctx,
-                DrawMode::Line,
-                util::rect(
-                    piece.x + margin,
-                    piece.y + margin,
-                    SIZE,
-                    SIZE))?;
-        }
         Ok(())
     }
 

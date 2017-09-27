@@ -45,7 +45,7 @@ impl event::EventHandler for MainState {
 
         let border_color = Color::new(0.2, 0.2, 0.2, 1.0);
         let game_board_color = Color::new(0.0, 0.0, 0.0, 1.0);
-        let grid_color = Color::new(1.0, 1.0, 1.0, 0.8);
+        let grid_color = Color::new(1.0, 1.0, 1.0, 0.2);
 
         // Clear the screen and render the border
         set_background_color(ctx, border_color);
@@ -57,6 +57,12 @@ impl event::EventHandler for MainState {
             ctx,
             DrawMode::Fill,
             rect(GAME_MARGIN, GAME_MARGIN, GAME_WIDTH, GAME_HEIGHT))?;
+
+        // Render the food
+        self.food.draw(ctx, GAME_MARGIN).unwrap();
+
+        // Render the player inside of the game space
+        self.player.draw(ctx, GAME_MARGIN).unwrap();
 
         // Render the grid
         set_color(ctx, grid_color).unwrap();
@@ -77,12 +83,6 @@ impl event::EventHandler for MainState {
             }
             x += player::SIZE;
         }
-
-        // Render the food
-        self.food.draw(ctx, GAME_MARGIN).unwrap();
-
-        // Render the player inside of the game space
-        self.player.draw(ctx, GAME_MARGIN).unwrap();
 
         present(ctx);
         Ok(())
