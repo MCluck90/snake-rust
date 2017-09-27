@@ -40,7 +40,7 @@ struct MainState {
 impl MainState {
     fn new(ctx: &mut Context) -> GameResult<MainState> {
         let assets = Assets::new(ctx)?;
-        let score_display = graphics::Text::new(ctx, "0", &assets.font)?;
+        let score_display = graphics::Text::new(ctx, "Score: 0", &assets.font)?;
         Ok(MainState {
             player: Player::new(GAME_WIDTH, GAME_HEIGHT),
             food: Food {
@@ -58,7 +58,7 @@ impl event::EventHandler for MainState {
         // See if the player ate any food
         if self.player.update(dt, &self.food) {
             // Update the score
-            let score = format!("{}", self.player.get_score());
+            let score = format!("Score: {}", self.player.get_score());
             self.score_display = graphics::Text::new(ctx, &score, &self.assets.font)?;
 
             // Move the food
