@@ -2,6 +2,7 @@ use ggez::*;
 use ggez::event::*;
 use std::time::Duration;
 
+use food::Food;
 use util;
 
 struct Point {
@@ -36,7 +37,7 @@ impl Player {
         }
     }
 
-    pub fn update(&mut self, dt: Duration) {
+    pub fn update(&mut self, dt: Duration, food: &Food) {
         let ms = util::to_ms(dt);
         self.time_since_update += ms;
 
@@ -45,6 +46,7 @@ impl Player {
         }
 
         self.time_since_update = 0;
+        self.eat(food);
 
         if self.tail_pieces.len() > 0 {
             self.tail_pieces.pop().unwrap();
@@ -143,13 +145,19 @@ impl Player {
                     }
                 }
             },
-            Keycode::Space => {
-                self.tail_pieces.push(Point {
-                    x: self.x,
-                    y: self.y
-                })
-            },
             _ => {}
+        }
+    }
+
+    pub fn eat(&mut self, food: &Food) -> bool {
+        if self.x == food.x && self.y == food.y {
+            self.tail_pieces.push(Point {
+                x: self.x,
+                y: self.y
+            });
+            true
+        } else {
+            false
         }
     }
 }
