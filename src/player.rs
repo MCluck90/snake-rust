@@ -4,6 +4,11 @@ use std::time::Duration;
 
 use util;
 
+struct Point {
+    x: f32,
+    y: f32
+}
+
 pub const SIZE: f32 = 25.0;
 
 pub struct Player {
@@ -13,7 +18,8 @@ pub struct Player {
     y_speed: f32,
     time_since_update: u64,
     game_width: f32,
-    game_height: f32
+    game_height: f32,
+    tail_pieces: Vec<Point>
 }
 
 impl Player {
@@ -25,7 +31,8 @@ impl Player {
             y_speed: 0.0,
             time_since_update: 0,
             game_width: game_width,
-            game_height: game_height
+            game_height: game_height,
+            tail_pieces: Vec::new()
         }
     }
 
@@ -36,7 +43,16 @@ impl Player {
         if self.time_since_update <= 150 {
             return;
         }
+
         self.time_since_update = 0;
+
+        if self.tail_pieces.len() > 0 {
+            self.tail_pieces.pop().unwrap();
+            self.tail_pieces.insert(0, Point {
+                x: self.x,
+                y: self.y
+            });
+        }
 
         // Move
         self.x += self.x_speed;
@@ -70,6 +86,18 @@ impl Player {
                 self.y + margin,
                 SIZE,
                 SIZE))?;
+
+        for piece in &self.tail_pieces {
+            rectangle(
+                ctx,
+                DrawMode::Fill,
+                util::rect(
+                    piece.x + margin,
+                    piece.y + margin,
+                    SIZE,
+                    SIZE))?;
+        }
+
         set_color(ctx, player_border_color).unwrap();
         rectangle(
             ctx,
@@ -79,6 +107,17 @@ impl Player {
                 self.y + margin,
                 SIZE,
                 SIZE))?;
+
+        for piece in &self.tail_pieces {
+            rectangle(
+                ctx,
+                DrawMode::Line,
+                util::rect(
+                    piece.x + margin,
+                    piece.y + margin,
+                    SIZE,
+                    SIZE))?;
+        }
         Ok(())
     }
 
@@ -103,6 +142,12 @@ impl Player {
                         self.y_speed *= -1.0;
                     }
                 }
+            },
+            Keycode::Space => {
+                self.tail_pieces.push(Point {
+                    x: self.x,
+                    y: self.y
+                })
             },
             _ => {}
         }
