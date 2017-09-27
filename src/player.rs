@@ -73,6 +73,10 @@ impl Player {
             self.y = self.game_height - SIZE;
         }
 
+        if self.is_colliding_with_tail() {
+            self.tail_pieces = Vec::new();
+        }
+
         has_eaten
     }
 
@@ -151,6 +155,16 @@ impl Player {
 
         for piece in &self.tail_pieces {
             if piece.x == food.x && piece.y == food.y {
+                return true;
+            }
+        }
+
+        false
+    }
+
+    fn is_colliding_with_tail(&mut self) -> bool {
+        for piece in &self.tail_pieces {
+            if piece.x == self.x && piece.y == self.y {
                 return true;
             }
         }
