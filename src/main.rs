@@ -86,14 +86,14 @@ impl event::EventHandler for MainState {
 
 pub fn main() {
     let c = conf::Conf {
-        window_title: "Snake Movement".to_string(),
+        window_title: "Snake".to_string(),
         window_icon: "".to_string(),
         window_height: SCREEN_HEIGHT as u32,
         window_width: SCREEN_WIDTH as u32,
         vsync: true,
         resizable: false
     };
-    let ctx = &mut Context::load_from_conf("snake_movement", "ggez", c).unwrap();
+    let ctx = &mut Context::load_from_conf("snake", "ggez", c).unwrap();
     let state = &mut MainState::new();
     event::run(ctx, state).unwrap();
 }
