@@ -5,8 +5,9 @@ A simple implementation of the game Snake in Rust.
 # Installation
 
 1. Clone or download the repository
-2. Run `cargo build` from the command line
-3. Copy the `resources` directory to the output directory
+2. Make sure you [have SDL2 installed](https://github.com/Rust-SDL2/rust-sdl2#user-content-requirements)
+3. Run `cargo build` from the command line
+4. Copy the `resources` directory to the output directory
 
 ## Controls
 
