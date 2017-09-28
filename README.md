@@ -18,3 +18,5 @@ A simple implementation of the game Snake in Rust.
 * Up Arrow: Move up
 * Down Arrow: Move down
 * Esc: Quit
+
+Going off the screen will just wrap you around to the other side. The only way to die is by running into your own tail.
