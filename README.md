@@ -2,6 +2,8 @@
 
 A simple implementation of the game Snake in Rust.
 
+![screenshot](https://github.com/MCluck90/snake-rust/raw/master/screenshot.png)
+
 # Installation
 
 1. Clone or download the repository
